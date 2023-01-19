@@ -7,11 +7,12 @@ class AppData
     public void Initialize(string csvFilePath)
     {
         CsvReader csvReader = new CsvReader(csvFilePath);
-        this.AllCountries = csvReader.ReadAllCountries();
+       // this.AllCountries = csvReader.ReadAllCountries();
+        this.AllCountries = (csvReader.ReadAllCountries()).OrderBy(c=>c.Name).ToList();
     }
     public void display()
     {
-        foreach(var country in CsvReader.countries)
+        foreach(var country in this.AllCountries)
         {
             Console.WriteLine(country);
         }

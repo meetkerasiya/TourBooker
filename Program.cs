@@ -4,11 +4,15 @@ using TourBooker;
 class AppData
 {
     public List<Country> AllCountries { get; private set; }
+
+    public Dictionary<string,Country> AllCountriesByKey { get; private set; }
+
     public void Initialize(string csvFilePath)
     {
         CsvReader csvReader = new CsvReader(csvFilePath);
        // this.AllCountries = csvReader.ReadAllCountries();
         this.AllCountries = (csvReader.ReadAllCountries()).OrderBy(c=>c.Name).ToList();
+        this.AllCountriesByKey = AllCountries.ToDictionary(c=>c.Code);
     }
     public void display()
     {
@@ -35,6 +39,11 @@ class AppData
     {
         if(code.Length != 3)
             Console.WriteLine("Please enter correct code");
-        Console.WriteLine(CsvReader.countries.Find(c=>c.Code==code));
+        // Console.WriteLine(CsvReader.countries.Find(c=>c.Code==code));
+        //doing using dictionary
+        //this method returns a boolean
+        this.AllCountriesByKey.TryGetValue(code, out Country result);
+        Console.WriteLine(result);
+        if (result is null) Console.WriteLine("Please enter correct code");
     }
 }
